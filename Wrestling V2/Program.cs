@@ -1,124 +1,61 @@
 ﻿
 using System.Xml.Linq;
 Random random = new Random();
-int psp = 100;
-int usedpsp = 0;
+int psp = 100;          // hp left
+int usedpsp = 0;        // used sp this round, resets every round
 //
-int csp = 100;
-int usedcsp = 0;
+int csp = 100;          // HP left
+int usedcsp = 0;        // used sp this round, resets every round
 //
-int dead = 0;
-//
-int x = 0;
-int y = 0;
+int dead = 0;           // start count for computer´s min hp random 
+
+int x = 0;              //retunerar poängen
+int y = 0;              //retunerar poängen
+int playerpoints = x;   // för att definera poängen 
+int computerpoints = y; // för att definera poängen 
+
+
+int ticker = 1; // rounds
 
 Console.WriteLine("Do you dare to face off against the arm wrestling world champion COMPUTOS MAXIMUS");
 Console.WriteLine("Press Y to start N to exit");
 string startplaying = Console.ReadLine().ToLower();
 if (startplaying == "y")
 {
-    
     Console.WriteLine("What is your Wrestling name?");
     string username = Console.ReadLine().ToUpper();
     Console.WriteLine($"Welcome to the Arm Wrestling game. Our next Challanger {username} is up and ");
 
-    // round 1
-    Console.WriteLine("Round 1.... Fight");
-    usedpsp = 0;
-    usedcsp = 0;
+    do
+    {
+        // round 1 - 3
+        Console.WriteLine($"Round {ticker}.... Fight");
+        usedpsp = 0;
+        usedcsp = 0;
+        
 
-    usedpsp = PlayerSP();
-    Console.WriteLine($"You have {psp} SP LEFT!");
+        usedpsp = PlayerSP();
+        Console.WriteLine($"You have {psp} SP LEFT!");
 
-    var (remaningCsp, usedCsp) = ComputerSP(dead);
-    Console.WriteLine($"The other player have used {usedCsp} SP it have {remaningCsp} SP left!");
+        var (remaningCsp, usedCsp) = ComputerSP(dead);
+        Console.WriteLine($"The other player have used {usedCsp} SP it have {remaningCsp} SP left!");
 
-    RoundS(ref x, ref y, psp, csp, usedpsp, usedCsp);
+        RoundS(ref x, ref y, psp, csp, usedpsp, usedCsp);
+        ++ticker;
 
-    // round 2
-    Console.WriteLine("Round 2.... Fight");
-    usedpsp = 0;
-    usedcsp = 0;
+    }
+    while (x < 2 && y < 2);
 
-    usedpsp = PlayerSP();
-    Console.WriteLine($"You have {psp} SP LEFT!");
-
-    (remaningCsp, usedCsp) = ComputerSP(dead);
-    Console.WriteLine($"The other player have used {usedCsp} SP it have {remaningCsp} SP left!");
-
-    RoundS(ref x, ref y, psp, csp, usedpsp, usedCsp);
-
-    // Final Round
-    Console.WriteLine("Final Round.... Fight");
-    usedpsp = 0;
-    usedcsp = 0;
-
-    usedpsp = PlayerSP();
-    Console.WriteLine($"You have {psp} SP LEFT!");
-
-    (remaningCsp, usedCsp) = ComputerSP(dead);
-    Console.WriteLine($"The other player have used {usedCsp} SP it have {remaningCsp} SP left!");
-
-    RoundS(ref x, ref y, psp, csp, usedpsp, usedCsp);
-
-
-
-
-
-
-
-    PlayerSP();
-    Console.WriteLine(psp);
-
-    (remaningCsp, usedCsp) = ComputerSP(dead);
-    Console.WriteLine($"The other player have used {usedCsp} SP it have {remaningCsp} SP left!");
+    if (x == 2)
+    {
+        Console.WriteLine($"{username} WON AND IS THE NEW CHAMPION!!!! YOU WON WITH {x} - {y} WINS!! CLAME YOUR PRIZE WITH DEATH!");
+    }
+    else 
+    {
+        Console.WriteLine($"COMPUTOS MAXIMUS IS STILL THE UNDEFEATED CHAMPION!!!! AND YOU {username} HAVE LOST! " +
+            $"\n THE FINALS SCORE IS {y} - {x}");
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 else if (startplaying == "n")
 {
     Console.WriteLine("*Sniff* *sniff* i smell a fucking chicken around here.");
@@ -127,8 +64,6 @@ else
 {
     Console.WriteLine("Can you not read fool?");
 }
-
-
 
 int PlayerSP()
 {
@@ -178,7 +113,3 @@ int RoundS(ref int x, ref int y, int csp, int psp, int usedpsp, int usedcsp)
 }
 
 
-int RoundWins()
-{
-
-}
